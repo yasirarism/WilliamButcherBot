@@ -45,9 +45,7 @@ def paginate_modules(page_n, module_dict, prefix, chat=None):
             [
                 EqInlineKeyboardButton(
                     x.__MODULE__,
-                    callback_data="{}_module({})".format(
-                        prefix, x.__MODULE__.lower()
-                    ),
+                    callback_data=f"{prefix}_module({x.__MODULE__.lower()})",
                 )
                 for x in module_dict.values()
             ]
@@ -57,9 +55,7 @@ def paginate_modules(page_n, module_dict, prefix, chat=None):
             [
                 EqInlineKeyboardButton(
                     x.__MODULE__,
-                    callback_data="{}_module({},{})".format(
-                        prefix, chat, x.__MODULE__.lower()
-                    ),
+                    callback_data=f"{prefix}_module({chat},{x.__MODULE__.lower()})",
                 )
                 for x in module_dict.values()
             ]
@@ -92,16 +88,13 @@ def paginate_modules(page_n, module_dict, prefix, chat=None):
         ] + [
             (
                 EqInlineKeyboardButton(
-                    "❮",
-                    callback_data="{}_prev({})".format(prefix, modulo_page),
+                    "❮", callback_data=f"{prefix}_prev({modulo_page})"
                 ),
                 EqInlineKeyboardButton(
-                    "Back",
-                    callback_data="{}_home({})".format(prefix, modulo_page),
+                    "Back", callback_data=f"{prefix}_home({modulo_page})"
                 ),
                 EqInlineKeyboardButton(
-                    "❯",
-                    callback_data="{}_next({})".format(prefix, modulo_page),
+                    "❯", callback_data=f"{prefix}_next({modulo_page})"
                 ),
             )
         ]

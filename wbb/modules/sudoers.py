@@ -66,16 +66,15 @@ async def bot_sys_stats():
     mem = psutil.virtual_memory().percent
     disk = psutil.disk_usage("/").percent
     process = psutil.Process(os.getpid())
-    stats = f"""
+    return f"""
 {USERBOT_USERNAME}@William
 ------------------
-UPTIME: {formatter.get_readable_time((bot_uptime))}
-BOT: {round(process.memory_info()[0] / 1024 ** 2)} MB
+UPTIME: {formatter.get_readable_time(bot_uptime)}
+BOT: {round(process.memory_info()[0] / 1024**2)} MB
 CPU: {cpu}%
 RAM: {mem}%
 DISK: {disk}%
 """
-    return stats
 
 
 # Gban

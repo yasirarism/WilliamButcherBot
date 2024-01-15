@@ -112,9 +112,7 @@ async def welcome(_, message: Message):
             if await is_gbanned_user(member.id):
                 await message.chat.kick_member(member.id)
                 await message.reply_text(
-                    f"{member.mention} was globally banned, and got removed,"
-                    + " if you think this is a false gban, you can appeal"
-                    + " for this ban in support chat."
+                    f"{member.mention} was globally banned, and got removed, if you think this is a false gban, you can appeal for this ban in support chat."
                 )
                 continue
 
@@ -137,37 +135,34 @@ async def welcome(_, message: Message):
         # Generate a captcha image, answers and some wrong answers
         captcha = generate_captcha()
         captcha_image = captcha[0]
-        captcha_answer = captcha[1]
         wrong_answers = captcha[2]  # This consists of 8 wrong answers
+        captcha_answer = captcha[1]
         correct_button = InlineKeyboardButton(
             f"{captcha_answer}",
             callback_data=f"pressed_button {captcha_answer} {member.id}",
         )
         temp_keyboard_1 = [correct_button]  # Button row 1
-        temp_keyboard_2 = []  # Botton row 2
-        temp_keyboard_3 = []
-        for i in range(2):
-            temp_keyboard_1.append(
-                InlineKeyboardButton(
-                    f"{wrong_answers[i]}",
-                    callback_data=f"pressed_button {wrong_answers[i]} {member.id}",
-                )
+        temp_keyboard_1.extend(
+            InlineKeyboardButton(
+                f"{wrong_answers[i]}",
+                callback_data=f"pressed_button {wrong_answers[i]} {member.id}",
             )
-        for i in range(2, 5):
-            temp_keyboard_2.append(
-                InlineKeyboardButton(
-                    f"{wrong_answers[i]}",
-                    callback_data=f"pressed_button {wrong_answers[i]} {member.id}",
-                )
+            for i in range(2)
+        )
+        temp_keyboard_2 = [
+            InlineKeyboardButton(
+                f"{wrong_answers[i]}",
+                callback_data=f"pressed_button {wrong_answers[i]} {member.id}",
             )
-        for i in range(5, 8):
-            temp_keyboard_3.append(
-                InlineKeyboardButton(
-                    f"{wrong_answers[i]}",
-                    callback_data=f"pressed_button {wrong_answers[i]} {member.id}",
-                )
+            for i in range(2, 5)
+        ]
+        temp_keyboard_3 = [
+            InlineKeyboardButton(
+                f"{wrong_answers[i]}",
+                callback_data=f"pressed_button {wrong_answers[i]} {member.id}",
             )
-
+            for i in range(5, 8)
+        ]
         shuffle(temp_keyboard_1)
         keyboard = [temp_keyboard_1, temp_keyboard_2, temp_keyboard_3]
         shuffle(keyboard)

@@ -37,18 +37,14 @@ def url(_, __, message: Message) -> bool:
     # doesn't have schema, ex-facebook.com
 
     text = message.text or message.caption
-    if not text:
-        return False
-    return bool(get_urls_from_text(text))
+    return False if not text else bool(get_urls_from_text(text))
 
 
 async def admin(_, __, message: Message) -> bool:
     if message.chat.type not in ["group", "supergroup"]:
         return False
     if not message.from_user:
-        if not message.sender_chat:
-            return False
-        return True
+        return bool(message.sender_chat)
     # Calling iter_chat_members again and again
     # doesn't cause floodwait, that's why i'm using it here.
     return message.from_user.id in [
@@ -68,15 +64,11 @@ def anonymous(_, __, message: Message) -> bool:
 
 
 def sudoers(_, __, message: Message) -> bool:
-    if not message.from_user:
-        return False
-    return message.from_user.id in SUDOERS
+    return False if not message.from_user else message.from_user.id in SUDOERS
 
 
 def owner(_, __, message: Message) -> bool:
-    if not message.from_user:
-        return False
-    return message.from_user.id == OWNER_ID
+    return False if not message.from_user else message.from_user.id == OWNER_ID
 
 
 class Filters:

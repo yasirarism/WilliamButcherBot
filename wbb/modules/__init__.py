@@ -32,7 +32,7 @@ from wbb import MOD_LOAD, MOD_NOLOAD
 def __list_all_modules():
     # This generates a list of modules in this
     # folder for the * in __main__ to work.
-    mod_paths = glob.glob(dirname(__file__) + "/*.py")
+    mod_paths = glob.glob(f"{dirname(__file__)}/*.py")
     all_modules = [
         basename(f)[:-3]
         for f in mod_paths
@@ -54,11 +54,11 @@ def __list_all_modules():
         else:
             to_load = all_modules
 
-        if MOD_NOLOAD:
-            return [item for item in to_load if item not in MOD_NOLOAD]
-
-        return to_load
-
+        return (
+            [item for item in to_load if item not in MOD_NOLOAD]
+            if MOD_NOLOAD
+            else to_load
+        )
     return all_modules
 
 

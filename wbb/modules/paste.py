@@ -57,7 +57,7 @@ async def paste_func(_, message: Message):
 
     if r.text:
         content = str(r.text)
-    elif r.document:
+    else:
         if r.document.file_size > 40000:
             return await m.edit("You can only paste files smaller than 40KB.")
 
